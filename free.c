@@ -25,7 +25,7 @@ void free_nstr(char **str)
     free(str);
 }
 
-void free_error(int *nbr, char **str)
+void free_error(long *nbr, char **str)
 {
     if (nbr)
         free(nbr);
@@ -33,4 +33,22 @@ void free_error(int *nbr, char **str)
         free_nstr(str);
     write(2, "ERROR\n", 6);
     exit(EXIT_FAILURE);
+}
+
+void free_stack(t_stack **stack)
+{
+    t_stack *tmp;
+
+    if (stack == NULL)
+        return ;
+    while (*stack)
+    {
+        tmp = (*stack)->next;
+        (*stack)->nbr = 0;
+        (*stack)->cur_p = 0;
+        (*stack)->target_p = 0;
+        free(*stack);
+        (*stack) = tmp;
+    }
+    *stack = NULL;
 }

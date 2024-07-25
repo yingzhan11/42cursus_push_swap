@@ -14,36 +14,36 @@
 
 static void push(t_stack **src, t_stack **dst)
 {
-    t_stack *node;
+    t_stack *node_to_push;
 
-    if (src == NULL)
+    if (*src == NULL)
         return ;
-    node = *src;
+    node_to_push = *src;
     *src = (*src)->next;
     if (*src)
         (*src)->prev = NULL;
-    node->prev = NULL;
+    node_to_push->prev = NULL;
     if (*dst == NULL)
     {
-        *dst = node;
-        node->next = NULL;
+        *dst = node_to_push;
+        node_to_push->next = NULL;
     }
     else
     {
-        *dst->prev = node;
-        node->next = *dst;
-        *dst = node;
+        node_to_push->next = *dst;
+        node_to_push->next->prev = node_to_push;
+        *dst = node_to_push;
     }
 }
 
 void pa(t_stack **b, t_stack **a)
 {
     push(b, a);
-    write(1, "pa\n", 3);
+    ft_printf("pa\n");
 }
 
 void pb(t_stack **a, t_stack **b)
 {
     push(a, b);
-    write(1, "pb\n", 3);
+    ft_printf("pb\n");
 }

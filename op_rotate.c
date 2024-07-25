@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_rotate.h"
+#include "push_swap.h"
 
 static void rotate(t_stack **stack)
 {
@@ -18,13 +18,13 @@ static void rotate(t_stack **stack)
     t_stack *newlast;
     t_stack *oldlast;
 
-    if (*stack = NULL || stack == NULL)
+    if (*stack == NULL || stack == NULL)
         return ;
-    len = stack_len(stack);
+    len = stack_len(*stack);
     if (len == 1)
         return ;
     
-    oldlast = find_last(stack);
+    oldlast = find_last_node(*stack);
     newlast = *stack;
     *stack = (*stack)->next;
     (*stack)->prev = NULL;
@@ -36,18 +36,18 @@ static void rotate(t_stack **stack)
 void ra(t_stack **a)
 {
     rotate(a);
-    write(1, "ra\n", 3);
+    ft_printf("ra\n");
 }
 
 void rb(t_stack **b)
 {
     rotate(b);
-    write(1, "rb\n", 3);
+    ft_printf("rb\n");
 }
 
 void rr(t_stack **a, t_stack **b)
 {
     rotate(a);
     rotate(b);
-    write(1, "rr\n", 3);
+    ft_printf("rr\n");
 }

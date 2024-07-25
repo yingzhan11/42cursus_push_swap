@@ -13,9 +13,14 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# include "libft.h"
+# include "ft_printf/ft_printf.h"
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
+
 
 # define ELEMENTS "+-0123456789"
 
@@ -24,15 +29,13 @@ typedef struct s_stack
     int nbr;
     int cur_p;
     int target_p;
-    struct s_node *next;
-    struct s_node *prev;
+    struct s_stack *next;
+    struct s_stack *prev;
 } t_stack;
 
 typedef struct s_info
 {
     int total_n;
-    int max;
-    int min;
     int a_n;
     int a_max;
     int a_min;
@@ -40,6 +43,9 @@ typedef struct s_info
     int b_max;
     int b_min;
 } t_info;
+
+//main.c
+bool check_sort(t_stack *stack);
 
 //check_argv.c
 void check_argv(int argc, char **argv);
@@ -51,7 +57,7 @@ void pb(t_stack **a, t_stack **b);
 //op_rev_rotate.c
 void rra(t_stack **a);
 void rrb(t_stack **b);
-void rr(t_stack **a, t_stack **b);
+void rrr(t_stack **a, t_stack **b);
 
 //op_rotate.c
 void ra(t_stack **a);
@@ -67,18 +73,24 @@ void ss(t_stack **a, t_stack **b);
 void push_swap(t_stack **a, t_stack **b, t_info *info);
 
 //sort_three.c
-void sort_three_a(t_stack **a, t_info info);
-void sort_three_b(t_stack **b);
+void sort_three_a(t_stack **a, t_info *info);
+void sort_three_b(t_stack **b, t_info *info);
+void final_sort(t_stack **a, t_info *info);
 
 //tools.c
 int stack_len(t_stack *stack);
-t_stack *find_last(t_stack *stack);
+t_stack *find_last_node(t_stack *stack);
+long ft_atol (const char *str);
 
 //free.c
 void free_nstr(char **str);
-void free_error(int *nbr, char **str);
+void free_error(long *nbr, char **str);
+void free_stack(t_stack **stack);
 
-
+//update_node.c
+void update_node(t_stack *a, t_stack *b, t_info *info);
+int find_max(t_stack *stack);
+int find_min(t_stack *stack);
 
 
 #endif

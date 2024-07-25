@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_rotate.h"
+#include "push_swap.h"
 
 static void rev_rotate(t_stack **stack)
 {
     int len;
     t_stack *newhead;
 
-    if (*stack = NULL || stack == NULL)
+    if (*stack == NULL || stack == NULL)
         return ;
-    len = stack_len(stack);
+    len = stack_len(*stack);
     if (len == 1)
         return ;
-    newhead = find_last(stack);
+    newhead = find_last_node(*stack);
     newhead->prev->next = NULL;
     newhead->next = *stack;
     newhead->prev = NULL;
@@ -33,18 +33,18 @@ static void rev_rotate(t_stack **stack)
 void rra(t_stack **a)
 {
     rev_rotate(a);
-    write(1, "rra\n", 3);
+    ft_printf("rra\n");
 }
 
 void rrb(t_stack **b)
 {
     rev_rotate(b);
-    write(1, "rrb\n", 3);
+    ft_printf("rrb\n");
 }
 
-void rr(t_stack **a, t_stack **b)
+void rrr(t_stack **a, t_stack **b)
 {
     rev_rotate(a);
     rev_rotate(b);
-    write(1, "rrr\n", 3);
+    ft_printf("rrr\n");
 }

@@ -31,29 +31,35 @@ static void add_node(t_stack **stack, int nbr)
     }
     else
     {
-        last = find_last(*stack);
+        last = find_last_node(*stack);
         last->next = node;
         node->prev = last;
     }
 }
 
-static void *stack_init(t_stack **a, int argc, char **argv)
+static void stack_init(t_stack **a, int argc, char **argv)
 {
-    int nbr;
+    long nbr;
     char **str;
     int i;
+    int j;
 
     i = 1;
     while (i < argc)
     {
         str = ft_split(argv[i], ' ');
         if (!str)
-            ft_free(stack, str);//TODO
+        {
+            free_stack(a);
+            write(2, "ERROR\n", 6);
+            exit(EXIT_FAILURE);
+        }
         j = 0;
         while (str[j])
         {
             nbr = ft_atol(str[j]); //TODO
-            add_node(a, nbr);
+            add_node(a, (int)nbr);
+            j++;
         }
         free_nstr(str);
         i++;
@@ -85,12 +91,16 @@ int main(int argc, char **argv)
     //else if (argc > 1205) ?
     check_argv(argc, argv);
 //1-initailize stacks
+    a = NULL;
     stack_init(&a, argc, argv);
     b = NULL;
-    info.toal_n = stack_len(&a);
+    info.total_n = stack_len(a);
 //2-sort
 //check stack is sorted or not
-    if (!check_sort(&a))
+    if (!check_sort(a))
         push_swap(&a, &b, &info);
 //3-clean and return
+    free_stack(&a);
+    free_stack(&b);
+    return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static int count_nbr(char ***str)
+static int count_nbr(char **str)
 {
     char **tmp;
     int count;
@@ -89,9 +89,9 @@ static void check_nbr(long *nbr, char **str)
     while (str[i])
     {
         nbr[j] = ft_atol(str[i]); //TODO
-        if (nbr[j] < INE_MIN || nbr[j] > INT_MAX)
+        if (nbr[j] < INT_MIN || nbr[j] > INT_MAX)
             free_error(nbr, str);
-        if (check_repeat(nbr, j) == 0);
+        if (check_repeat(nbr, j) == 0)
             free_error(nbr, str);
         j++;
         i++;
