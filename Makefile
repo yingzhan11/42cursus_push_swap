@@ -6,7 +6,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 HEADERS = -I $(LIBFT_DIR)
 
-SRCS = main.c check_argc.c push_swap.c update_node.c sort_three.c \
+SRCS = main.c check_argc.c push_swap.c stack_update.c stack_tools.c sort_three.c \
 		tools.c free.c op_push.c op_rev_rotate.c op_rotate.c op_swap.c
 OBJS = $(SRCS:.c=.o)
 

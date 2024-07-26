@@ -51,7 +51,7 @@ static void stack_init(t_stack **a, int argc, char **argv)
         if (!str)
         {
             free_stack(a);
-            write(2, "ERROR\n", 6);
+            write(2, "Error\n", 6);
             exit(EXIT_FAILURE);
         }
         j = 0;

@@ -12,73 +12,138 @@
 
 #include "push_swap.h"
 
-static void find_target_b(t_stack *a, t_stack *b, t_info *info)
+t_stack *find_min_steps_node(t_stack *stack)
 {
-    int cur;
+    if (stack == NULL)
+        return (NULL);
+    while (stack)
+    {
+        if (stack->is_min_steps)
+            return (stack);
+        stack = stack->next;
+    }
+    return (NULL);
+}
 
-    cur = a->nbr;
-//cur > b_max
-    //go to max, target_p before max
-    if (cur > info->b_max)
+void rotate_both(t_stack **src, t_stack **dst, t_stack *push_node)
+{
+    while (push_node->cur_p != 0 && push_node->target_p != 0)
     {
-        while (b->nbr < info->b_max)
-            b = b->next;
-        a->target_p = b->cur_p;
+        rr(src, dst);
+        push_node->cur_p--;
+        push_node->target_p--;
     }
-//cur < b_min
-    //go to min, target_p after min
-    else if (cur < info->b_min)
+    set_cur_position(*src);
+    set_cur_position(*dst);
+}
+
+void rev_rotate_both(t_stack **src, t_stack **dst, t_stack *push_node)
+{
+    int src_len;
+    int dst_len;
+
+    src_len = stack_len(*src);
+    dst_len = stack_len(*dst);
+    while (push_node->cur_p != 0 && push_node->target_p != 0)
     {
-        while (b->nbr > info->b_min)
-            b = b->next;
-        a->target_p = b->cur_p + 1;
+        rrr(src, dst);
+        push_node->cur_p++;
+        push_node->target_p++;
+        if (push_node->cur_p == src_len)
+            push_node->cur_p = 0;
+        if (push_node->target_p == dst_len)
+            push_node->target_p = 0;
     }
-// b_min < cur < b_max
-    //if sorted, find up tp down, same with last step
-    //not sorted, 
-        //if >, go to max, then same with next step
-        //if <, find > or end, get target_p
-    else
+    set_cur_position(*src);
+    set_cur_position(*dst);
+}
+
+void pre_rotation_src(t_stack **src, t_stack *push_node, char src_name)
+{
+    int len;
+
+    len = stack_len(*src);
+    if (len <= 1 || push_node->cur_p == 0)
+        return ;
+    while (push_node->cur_p != 0)
     {
-        while (cur > b->nbr)
-            b = b->next;
-        while (cur < b->nbr && b->next && cur < b->next->nbr)
-            b = b->next;
-        if (!b->next)
-            a->target_p = 0;
-        else
-            a->target_p = b->cur_p + 1;
+        if (push_node->is_above_med)
+        {
+            if (src_name == 'a')
+                ra(src);
+            else if (src_name == 'b')
+                rb(src);
+            push_node->cur_p--;
+        }
+        if (!(push_node->is_above_med))
+        {
+            if (src_name == 'a')
+                rra(src);
+            else if (src_name == 'b')
+                rrb(src);
+            push_node->cur_p++;
+            if (push_node->cur_p >= len)
+            push_node->cur_p = 0;
+        }
     }
 }
 
-static void move_to_b(t_stack **a, t_stack **b, t_info *info)
+void pre_rotation_dst(t_stack **dst, t_stack *push_node, char dst_name)
 {
-    int len_b;
-    int target_p;
-    int i;
+    int len;
 
-    len_b = stack_len(*b);
-    if (len_b <= 1) //0, 1, 2
-        pb(a, b);
-    else
+    len = stack_len(*dst);
+    if (len <= 1 || push_node->target_p == 0)
+        return ;
+    while (push_node->target_p != 0)
     {
-        find_target_b(*a, *b, info);
-        target_p = (*a)->target_p;
-        i = target_p;
-        if (0 < target_p && target_p <= (len_b / 2))
+        if (push_node->target_p <= (len / 2))
         {
-            while (i-- > 0)
-                rb(b);
+            if (dst_name == 'a')
+                ra(dst);
+            if (dst_name == 'b')
+                rb(dst);
+            push_node->target_p--;
         }
-        else if ((len_b / 2) < target_p && target_p < len_b)
+        else if (push_node->target_p > (len / 2) && push_node->target_p < len)
         {
-            while (i++ < len_b)
-                rrb(b);
+            if (dst_name == 'a')
+                rra(dst);
+            if (dst_name == 'b')
+                rrb(dst);
+            push_node->target_p++;
         }
-        pb(a, b);
-        if (target_p == len_b)
-            rb(b);
+        if (push_node->target_p >= len)
+            push_node->target_p = 0;
     }
+}
+
+void move_nodes(t_stack **src, t_stack **dst, char src_name, char dst_name)
+{
+    t_stack *min_steps_node;
+    int dst_len;
+
+    dst_len = stack_len(*dst);
+//pre work
+//find the node to be pushed
+    min_steps_node = find_min_steps_node(*src);
+//pre rotate
+    //if cur and target all above median, rr
+    if (min_steps_node->is_above_med && min_steps_node->target_p <= dst_len / 2)
+        rotate_both(src, dst, min_steps_node);
+    //if cur and target all after median, rrr
+    else if (!(min_steps_node->is_above_med) && min_steps_node->target_p > dst_len / 2)
+        rev_rotate_both(src, dst, min_steps_node);
+    //else, r or rr each
+
+    pre_rotation_src(src, min_steps_node, src_name);
+    pre_rotation_dst(dst, min_steps_node, dst_name);
+
+//push
+    if (dst_name == 'a')
+        pa(src, dst);
+    else if (dst_name == 'b')
+        pb(src, dst);
 }
 
 static void find_target_a(t_stack *a, t_stack *b, t_info *info)
@@ -148,37 +213,46 @@ static void move_to_a(t_stack **a, t_stack **b, t_info *info)
 void push_swap(t_stack **a, t_stack **b, t_info *info)
 {
     int len_a;
-
+//tiny sort, < 6
     if (info->total_n == 0 || info->total_n == 1)
         return ;
     else if (info->total_n == 2)
         sa(a);
     else if (info->total_n == 3)
         sort_three_a(a, info);
+//sort > 6
     else
     {
         len_a = info->total_n;
-        //info->max = find_max(*a);
-        //info->min = find_min(*a);
+    //move node from a to b
         while (len_a > 3)
         {
-            update_node(*a, *b, info);
-            move_to_b(a, b, info);
+            update_stack(*a, *b, info, 'a');
+            move_nodes(a, b, 'a', 'b');
             len_a--;
         }
+        
+
+    //sort reminder three nbr in a
         sort_three_a(a, info);
+
+    //move node back from b to a    
         while (*b)
         {
-            update_node(*a, *b, info);
+            update_stack(*a, *b, info, 'b');
+            //move_nodes(b, a, 'b', 'a');
             move_to_a(a, b, info);
         }
-        update_node(*a, *b, info);
+    //final sort a
+        update_stack(*a, *b, info, 'b');
         final_sort(a, info);
-        /*
-        ft_printf("%d\n", (*a)->nbr);
-        ft_printf("%d\n", (*a)->next->nbr);
-        ft_printf("%d\n", (*a)->next->next->nbr);
-        ft_printf("%d\n", (*a)->next->next->next->nbr);
-        */
+        
+        /*ft_printf("a stack:\n");
+        while (*a)
+        {
+            ft_printf("%d\n", (*a)->nbr);
+            (*a) = (*a)->next;
+        }*/
+    
     }
 }

@@ -36,7 +36,6 @@ void final_sort(t_stack **a, t_info *info)
     t_stack *min_node;
     int len_a;
 
-
     min_node = *a;
     while (min_node->nbr > info->a_min)
         min_node = min_node->next;
@@ -44,7 +43,7 @@ void final_sort(t_stack **a, t_info *info)
     len_a = stack_len(*a);
     if (min_p == 0)
         return ;
-    else if (min_p < (len_a / 2))
+    else if (min_p <= (len_a / 2))
     {
         while (min_p-- > 0)
             ra(a);

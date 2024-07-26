@@ -13,29 +13,7 @@
 
 #include "push_swap.h"
 
-int stack_len(t_stack *stack)
-{
-    int count;
 
-    if (stack == NULL)
-        return (0);
-    count = 0;
-    while(stack)
-    {
-        count++;
-        stack = stack->next;
-    }
-    return (count);
-}
-
-t_stack *find_last_node(t_stack *stack)
-{
-    if (!stack)
-        return (NULL);
-    while (stack->next != NULL)
-        stack = stack->next;
-    return (stack);
-}
 
 long ft_atol (const char *str)
 {

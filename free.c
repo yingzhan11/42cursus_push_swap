@@ -31,7 +31,7 @@ void free_error(long *nbr, char **str)
         free(nbr);
     if (str)
         free_nstr(str);
-    write(2, "ERROR\n", 6);
+    write(2, "Error\n", 6);
     exit(EXIT_FAILURE);
 }
 

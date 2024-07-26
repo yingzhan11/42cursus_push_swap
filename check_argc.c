@@ -26,7 +26,7 @@ static int count_nbr(char **str)
         tmp = ft_split(str[i], ' ');
         if (!tmp)
         {
-            ft_printf("Error: fail to split argv\n");
+            write(2, "Error\n", 6);
             exit(EXIT_FAILURE);
         }
         j = 0;
@@ -107,7 +107,7 @@ void check_argv(int argc, char **argv)
     nbr = (long *)malloc((count_nbr(argv) + 1) * sizeof(long));
     if (!nbr)
     {
-        write(2, "ERROR\n", 6);
+        write(2, "Error\n", 6);
         exit(EXIT_FAILURE);
     }
     i = 1;

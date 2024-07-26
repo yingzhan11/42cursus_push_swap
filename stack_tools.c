@@ -1,7 +1,28 @@
-
-
 #include "push_swap.h"
 
+int stack_len(t_stack *stack)
+{
+    int count;
+
+    if (stack == NULL)
+        return (0);
+    count = 0;
+    while(stack)
+    {
+        count++;
+        stack = stack->next;
+    }
+    return (count);
+}
+
+t_stack *find_last_node(t_stack *stack)
+{
+    if (!stack)
+        return (NULL);
+    while (stack->next != NULL)
+        stack = stack->next;
+    return (stack);
+}
 
 int find_max(t_stack *stack)
 {
@@ -35,32 +56,23 @@ int find_min(t_stack *stack)
     return (min);
 }
 
-static void set_cur_position(t_stack *stack)
+void set_cur_position(t_stack *stack)
 {
     int i;
+    int median;
 
     if (stack == NULL)
         return ;
     i = 0;
+    median = stack_len(stack) / 2;
     while (stack)
     {
         stack->cur_p = i;
+        if (i <= median)
+            stack->is_above_med = true;
+        else
+            stack->is_above_med = false;
         stack = stack->next;
         i++;
     }
-}
-
-void update_node(t_stack *a, t_stack *b, t_info *info)
-{
-    //set current position
-    set_cur_position(a);
-    set_cur_position(b);
-    //check n
-    info->a_n = stack_len(a);
-    info->b_n = stack_len(b);
-    //find max & min
-    info->b_max = find_max(b);
-    info->b_min = find_min(b);
-    info->a_max = find_max(a);
-    info->a_min = find_min(a);
 }
