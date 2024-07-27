@@ -57,7 +57,7 @@ void find_target_in_a(t_stack *b, t_stack *a, t_info *info)
         //cur > a_max  //go to max, target_p after max
             if (b->nbr > info->a_max)
             {
-                while (cur->nbr < info->a_max)
+                while (cur->nbr != info->a_max)
                     cur = cur->next;
                 b->target_p = cur->cur_p + 1;
                 break ;
@@ -65,7 +65,7 @@ void find_target_in_a(t_stack *b, t_stack *a, t_info *info)
     //cur < a_min, //go to min, target_p befoew min
             else if (b->nbr < info->a_min)
             {
-                while (cur->nbr > info->a_min)
+                while (cur->nbr != info->a_min)
                     cur = cur->next;
                 b->target_p = cur->cur_p;
                 break ;
@@ -140,11 +140,6 @@ void calculate_move_steps(t_stack *src, int src_len, int dst_len)
                     src->move_steps = dst_len - src->target_p;
             }
         }
-
-        /*if (src->target_p <= (dst_len / 2))
-            src->move_steps += src->target_p;
-        else
-            src->move_steps += dst_len - (src->target_p);*/
         src = src->next;
     }
 }
@@ -197,19 +192,10 @@ void update_stack(t_stack *a, t_stack *b, t_info *info, char src_name)
         find_target_in_a(b, a, info);
         calculate_move_steps(b, info->b_n, info->a_n);
         find_min_steps(b);
-        /*while (b)
-        {
-            ft_printf("nbr: %d/", (b)->nbr);
-            ft_printf("cur_p: %d/", (b)->cur_p);
-            ft_printf("target_p: %d\n", (b)->target_p);
-            ft_printf("move_steps: %d/", (b)->move_steps);
-            ft_printf("is_min: %d\n", (b)->is_min_steps);
-            (b) = (b)->next;
-        }*/
     }
-    /*else if (src_name == 'f')
+    else if (src_name == 'f')
     {
         info->a_max = find_max(a);
         info->a_min = find_min(a);
-    }*/
+    }
 }

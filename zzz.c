@@ -1,4 +1,35 @@
-/*static void find_target_a(t_stack *a, t_stack *b, t_info *info)
+void move_nodes(t_stack **src, t_stack **dst, char src_name, char dst_name)
+{
+    t_stack *min_steps_node;
+    int dst_len;
+
+    dst_len = stack_len(*dst);
+//pre work
+//find the node to be pushed
+    min_steps_node = find_min_steps_node(*src);
+//pre rotate
+    if (min_steps_node->cur_p != 0 || min_steps_node->target_p != 0)
+    {
+        if (min_steps_node->cur_p != 0 && min_steps_node->target_p != 0)
+        {//if cur and target all above median, rr
+            if (min_steps_node->is_above_med && min_steps_node->target_p <= dst_len / 2)
+                rotate_both(src, dst, min_steps_node);
+            //if cur and target all after median, rrr
+            else if (!(min_steps_node->is_above_med) && min_steps_node->target_p > dst_len / 2)
+                rev_rotate_both(src, dst, min_steps_node);
+        }
+        //else, r or rr each
+        pre_rotation_src(src, min_steps_node, src_name);
+        pre_rotation_dst(dst, min_steps_node, dst_name);
+    }
+//push
+    if (dst_name == 'a')
+        pa(src, dst);
+    else if (dst_name == 'b')
+        pb(src, dst);
+}
+
+static void find_target_a(t_stack *a, t_stack *b, t_info *info)
 {
     int cur;
 
@@ -35,76 +66,6 @@
         else
             b->target_p = a->cur_p + 1;
     }
-}*/
-
-
-/*static void find_target_b(t_stack *a, t_stack *b, t_info *info)
-{
-    int cur;
-
-    cur = a->nbr;
-//cur > b_max
-    //go to max, target_p before max
-    if (cur > info->b_max)
-    {
-        while (b->nbr < info->b_max)
-            b = b->next;
-        a->target_p = b->cur_p;
-    }
-//cur < b_min
-    //go to min, target_p after min
-    else if (cur < info->b_min)
-    {
-        while (b->nbr > info->b_min)
-            b = b->next;
-        a->target_p = b->cur_p + 1;
-    }
-// b_min < cur < b_max
-    //if sorted, find up tp down, same with last step
-    //not sorted, 
-        //if >, go to max, then same with next step
-        //if <, find > or end, get target_p
-    else
-    {
-        while (cur > b->nbr)
-            b = b->next;
-        while (cur < b->nbr && b->next && cur < b->next->nbr)
-            b = b->next;
-        if (!b->next)
-            a->target_p = 0;
-        else
-            a->target_p = b->cur_p + 1;
-    }
-}*/
-
-/*static void move_to_b(t_stack **a, t_stack **b, t_info *info)
-{
-    int len_b;
-    int target_p;
-    int i;
-
-    len_b = stack_len(*b);
-    if (len_b <= 1) //0, 1, 2
-        pb(a, b);
-    else
-    {
-        //find_target_b(*a, *b, info);
-        target_p = (*a)->target_p;
-        i = target_p;
-        if (0 < target_p && target_p <= (len_b / 2))
-        {
-            while (i-- > 0)
-                rb(b);
-        }
-        else if ((len_b / 2) < target_p && target_p < len_b)
-        {
-            while (i++ < len_b)
-                rrb(b);
-        }
-        pb(a, b);
-        if (target_p == len_b)
-            rb(b);
-    }
 }
 
 static void move_to_a(t_stack **a, t_stack **b, t_info *info)
@@ -113,8 +74,8 @@ static void move_to_a(t_stack **a, t_stack **b, t_info *info)
     int target_p;
     int i;
 
-    len_a = stack_len(*a);
-    find_target_a(*a, *b, info);
+    len_a = info->a_n;
+    //find_target_a(*a, *b, info);
     target_p = (*b)->target_p;
     i = target_p;
     if (0 < target_p && target_p <= (len_a / 2))
@@ -130,4 +91,4 @@ static void move_to_a(t_stack **a, t_stack **b, t_info *info)
     pa(b, a);
     if (target_p == len_a)
         ra(a);
-}*/
+}
