@@ -87,7 +87,7 @@ void find_target_in_a(t_stack *b, t_stack *a, t_info *info)
         b = b->next;
     }
 }
-
+/*
 void calculate_move_steps(t_stack *src, int src_len, int dst_len)
 {
     if (src== NULL)
@@ -102,6 +102,49 @@ void calculate_move_steps(t_stack *src, int src_len, int dst_len)
             src->move_steps += src->target_p;
         else
             src->move_steps += dst_len - (src->target_p);
+        src = src->next;
+    }
+}*/
+
+void calculate_move_steps(t_stack *src, int src_len, int dst_len)
+{
+    if (src== NULL)
+        return ;
+    while (src)
+    {
+        if (src->is_above_med)
+        {
+            if (src->target_p <= (dst_len / 2))
+            {
+                if (src->cur_p > src->target_p)
+                    src->move_steps = src->cur_p;
+                else
+                    src->move_steps = src->target_p;
+            }
+            else
+            {
+                src->move_steps = src->cur_p + (dst_len - src->target_p);
+            }
+        }
+        else
+        {
+            if (src->target_p <= (dst_len / 2))
+            {
+                src->move_steps = (src_len - src->cur_p) + src->target_p;
+            }
+            else
+            {
+                if ((src_len - src->cur_p) > (dst_len - src->target_p))
+                    src->move_steps = src_len - src->cur_p;
+                else
+                    src->move_steps = dst_len - src->target_p;
+            }
+        }
+
+        /*if (src->target_p <= (dst_len / 2))
+            src->move_steps += src->target_p;
+        else
+            src->move_steps += dst_len - (src->target_p);*/
         src = src->next;
     }
 }
