@@ -13,7 +13,7 @@
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
 
-SRC = ft_split.c ft_strchr.c
+SRC = ft_split.c ft_strchr.c ft_memset.c
 OBJ = $(SRC:.c=.o)
 
 PTF_DIR = ft_printf

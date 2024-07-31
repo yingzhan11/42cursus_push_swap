@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 11:40:54 by yzhan             #+#    #+#             */
-/*   Updated: 2024/04/26 14:48:27 by yzhan            ###   ########.fr       */
+/*   Created: 2024/04/17 11:09:51 by yzhan             #+#    #+#             */
+/*   Updated: 2024/04/17 12:02:31 by yzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t			i;
+	unsigned char	*s;
 
-char	*ft_strchr(const char *s, int c);
-char	**ft_split(char const *s, char c);
-void	*ft_memset(void *b, int c, size_t len);
-
-#endif
+	i = 0;
+	s = b;
+	while (i < len)
+	{
+		s[i] = c;
+		i++;
+	}
+	return (b);
+}

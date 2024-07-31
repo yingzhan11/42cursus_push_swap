@@ -57,12 +57,28 @@ static void stack_init(t_stack **a, int argc, char **argv)
         j = 0;
         while (str[j])
         {
-            nbr = ft_atol(str[j]); //TODO
+            nbr = ft_atol(str[j]);
             add_node(a, (int)nbr);
             j++;
         }
         free_nstr(str);
         i++;
+    }
+}
+
+void init_node(t_stack *a)
+{
+    t_stack *cur;
+
+    cur = a;
+    while (cur)
+    {
+        cur->cur_p = 0;
+        cur->target_p = 0;
+        cur->move_steps = 0;
+        cur->is_above_med = false;
+        cur->is_min_steps = false;
+        cur = cur->next;
     }
 }
 
@@ -88,12 +104,12 @@ int main(int argc, char **argv)
 //0-check param, argc & argv
     if (argc <= 1)
         exit(EXIT_FAILURE);
-    //else if (argc > 1205) ?
     check_argv(argc, argv);
 //1-initailize stacks
     a = NULL;
-    stack_init(&a, argc, argv);
     b = NULL;
+    stack_init(&a, argc, argv);
+    init_node(a);
     info.total_n = stack_len(a);
 //2-sort
 //check stack is sorted or not

@@ -38,6 +38,8 @@ void find_target_in_b(t_stack *a, t_stack *b, t_info *info)
                     a->target_p = 0;
                 else
                     a->target_p = cur->cur_p + 1;
+                if (a->target_p == info->b_n)
+                    a->target_p = 0;
                 break ;
             }
         }
@@ -81,34 +83,19 @@ void find_target_in_a(t_stack *b, t_stack *a, t_info *info)
                     b->target_p = 0;
                 else
                     b->target_p = cur->cur_p + 1;
+                if (b->target_p == info->a_n)
+                    b->target_p = 0;
                 break ;
             }
         }
         b = b->next;
     }
 }
-/*
-void calculate_move_steps(t_stack *src, int src_len, int dst_len)
-{
-    if (src== NULL)
-        return ;
-    while (src)
-    {
-        if (src->is_above_med)
-            src->move_steps = src->cur_p;
-        else
-            src->move_steps = src_len - (src->cur_p);
-        if (src->target_p <= (dst_len / 2))
-            src->move_steps += src->target_p;
-        else
-            src->move_steps += dst_len - (src->target_p);
-        src = src->next;
-    }
-}*/
+
 
 void calculate_move_steps(t_stack *src, int src_len, int dst_len)
 {
-    if (src== NULL)
+    if (src == NULL)
         return ;
     while (src)
     {
@@ -183,7 +170,7 @@ void update_stack(t_stack *a, t_stack *b, t_info *info, char src_name)
     //calculate move steps
         calculate_move_steps(a, info->a_n, info->b_n);
     //find the min steps node
-        find_min_steps(a);   
+        find_min_steps(a);
     }
     else if (src_name == 'b')
     {

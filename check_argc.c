@@ -83,12 +83,13 @@ static void check_nbr(long *nbr, char **str)
     int j;
 
     j = 0;
+    nbr[j] = 0;
     while (nbr[j])
         j++;
     i = 0;
     while (str[i])
     {
-        nbr[j] = ft_atol(str[i]); //TODO
+        nbr[j] = ft_atol(str[i]);
         if (nbr[j] < INT_MIN || nbr[j] > INT_MAX)
             free_error(nbr, str);
         if (check_repeat(nbr, j) == 0)
@@ -103,6 +104,7 @@ void check_argv(int argc, char **argv)
     char **str;
     int i;
     long *nbr;
+    // int n = 0;
 
     nbr = (long *)malloc((count_nbr(argv) + 1) * sizeof(long));
     if (!nbr)
