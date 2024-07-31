@@ -1,32 +1,25 @@
 NAME = push_swap
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT_DIR = ./libft
-LIBFT_A = $(LIBFT_DIR)/libft.a
-
-HEADERS = -I $(LIBFT_DIR)
-
-SRCS = main.c check_argc.c push_swap.c stack_update.c stack_tools.c sort_three.c \
-		tools.c free.c op_push.c op_rev_rotate.c op_rotate.c op_swap.c
+SRCS = main.c check_argc.c stack_init.c stack_update.c stack_move.c stack_tools.c \
+		small_sort.c tools.c free.c ft_split.c \
+		op_push.c op_rev_rotate.c op_rotate.c op_swap.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 %.o: %.c
-	@cc $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)\n"
+	@cc $(CFLAGS) -o $@ -c $< && printf "Compiling: $(notdir $<)\n"
 
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT_DIR)
-	cc $(OBJS) $(LIBFT_A) -o $(NAME)
+	cc $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJS)
-	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make -C $(LIBFT_DIR) fclean
 
 re: clean all
 
