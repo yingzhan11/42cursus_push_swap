@@ -69,7 +69,6 @@ static int	check_repeat(long *nbr, int j)
 
 	check_nbr = nbr[j];
 	i = 0;
-	printf("j %i\n", j);
 	while (i < j)
 	{
 		if (nbr[i] == check_nbr)
@@ -79,25 +78,21 @@ static int	check_repeat(long *nbr, int j)
 	return (1);
 }
 
-static void	check_nbr(long *nbr, char **str)
+static void	check_nbr(long *nbr, char **str, int *j)
 {
 	int	i;
-	int	j;
 
-	j = 0;
-	nbr[j] = 0;
-	while (nbr[j])
-		j++;
+	while (nbr[*j])
+		(*j)++;
 	i = 0;
 	while (str[i])
 	{
-		nbr[j] = ft_atol(str[i]);
-		if (nbr[j] < INT_MIN || nbr[j] > INT_MAX)
+		nbr[*j] = ft_atol(str[i]);
+		if (nbr[*j] < INT_MIN || nbr[*j] > INT_MAX)
 			free_error(nbr, str);
-		printf("j %i\n", j);
-		if (check_repeat(nbr, j) == 0)
+		if (check_repeat(nbr, (*j)) == 0)
 			free_error(nbr, str);
-		j++;
+		(*j)++;
 		i++;
 	}
 }
@@ -107,6 +102,7 @@ void	check_argv(int argc, char **argv)
 	char	**str;
 	int		i;
 	long	*nbr;
+	int j;
 
 	nbr = (long *)malloc((count_nbr(argv) + 1) * sizeof(long));
 	if (!nbr)
@@ -115,6 +111,7 @@ void	check_argv(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	i = 1;
+	j = 0;
 	while (i < argc)
 	{
 		str = ft_split(argv[i], ' ');
@@ -122,7 +119,7 @@ void	check_argv(int argc, char **argv)
 			free_error(nbr, str);
 		if (check_elements(str) == 0 || check_order(str) == 0)
 			free_error(nbr, str);
-		check_nbr(nbr, str);
+		check_nbr(nbr, str, &j);
 		free_nstr(str);
 		i++;
 	}
