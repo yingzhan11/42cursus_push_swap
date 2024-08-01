@@ -11,51 +11,52 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
-static int	count_nbr(char **str)
-{
-	char	**tmp;
-	int		count;
-	int		i;
-	int		j;
-
-	count = 0;
-	i = 1;
-	while (str[i])
-	{
-		tmp = ft_split(str[i], ' ');
-		if (!tmp)
-		{
-			write(2, "Error\n", 6);
-			exit(EXIT_FAILURE);
-		}
-		j = 0;
-		while (tmp[j])
-		{
-			count++;
-			j++;
-		}
-		free_nstr(tmp);
-		i++;
-	}
-	return (count);
-}
-
-static int	check_str(char **str)
+static int	check_elements(char **str)
 {
 	int	i;
 	int	j;
+	int	has_nbr;
+	int signs;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	has_nbr = 0;
+	signs = 0;
+	while (str[++i])
 	{
 		j = 0;
 		while (str[i][j])
 		{
 			if (!ft_strchr(ELEMENTS, str[i][j]))
 				return (0);
+			if (ft_strchr(NUMBERS, str[i][j]))
+				has_nbr = 1;
+			if (ft_strchr(SIGNS, str[i][j]))
+				signs += 1;
 			j++;
 		}
+		if (has_nbr == 0 || signs > 1)
+			return (0);
+	}
+	return (1);
+}
+
+static int check_order(char **str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		if (ft_strchr(SIGNS, str[i][j]))
+			j++;
+		while (ft_strchr(NUMBERS, str[i][j]))
+			j++;
+		if (ft_strchr(SIGNS, str[i][j]))
+			return (0);
 		i++;
 	}
 	return (1);
@@ -68,6 +69,7 @@ static int	check_repeat(long *nbr, int j)
 
 	check_nbr = nbr[j];
 	i = 0;
+	printf("j %i\n", j);
 	while (i < j)
 	{
 		if (nbr[i] == check_nbr)
@@ -92,6 +94,7 @@ static void	check_nbr(long *nbr, char **str)
 		nbr[j] = ft_atol(str[i]);
 		if (nbr[j] < INT_MIN || nbr[j] > INT_MAX)
 			free_error(nbr, str);
+		printf("j %i\n", j);
 		if (check_repeat(nbr, j) == 0)
 			free_error(nbr, str);
 		j++;
@@ -115,9 +118,9 @@ void	check_argv(int argc, char **argv)
 	while (i < argc)
 	{
 		str = ft_split(argv[i], ' ');
-		if (!str)
+		if (!str || !*str)
 			free_error(nbr, str);
-		if (check_str(str) == 0)
+		if (check_elements(str) == 0 || check_order(str) == 0)
 			free_error(nbr, str);
 		check_nbr(nbr, str);
 		free_nstr(str);

@@ -12,6 +12,35 @@
 
 #include "push_swap.h"
 
+int	count_nbr(char **str)
+{
+	char	**tmp;
+	int		count;
+	int		i;
+	int		j;
+
+	count = 0;
+	i = 1;
+	while (str[i])
+	{
+		tmp = ft_split(str[i], ' ');
+		if (!tmp || !*tmp)
+		{
+			write(2, "Error\n", 6);
+			exit(EXIT_FAILURE);
+		}
+		j = 0;
+		while (tmp[j])
+		{
+			count++;
+			j++;
+		}
+		free_nstr(tmp);
+		i++;
+	}
+	return (count);
+}
+
 long	ft_atol(const char *str)
 {
 	long	nbr;
@@ -83,17 +112,4 @@ int	find_min(t_stack *stack)
 		stack = stack->next;
 	}
 	return (min);
-}
-
-bool	check_sort(t_stack *stack)
-{
-	if (stack == NULL)
-		return (1);
-	while (stack->next)
-	{
-		if (stack->nbr > stack->next->nbr)
-			return (false);
-		stack = stack->next;
-	}
-	return (true);
 }

@@ -12,6 +12,19 @@
 
 #include "push_swap.h"
 
+bool	check_sort(t_stack *stack)
+{
+	if (stack == NULL)
+		return (1);
+	while (stack->next)
+	{
+		if (stack->nbr > stack->next->nbr)
+			return (false);
+		stack = stack->next;
+	}
+	return (true);
+}
+
 void	push_swap(t_stack **a, t_stack **b, t_info *info)
 {
 	if (info->total_n == 0 || info->total_n == 1)

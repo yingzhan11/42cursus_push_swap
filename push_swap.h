@@ -18,7 +18,9 @@
 # include <stdbool.h>
 # include <limits.h>
 
+# define NUMBERS "0123456789"
 # define ELEMENTS "+-0123456789"
+# define SIGNS "+-"
 
 typedef struct s_stack
 {
@@ -42,6 +44,9 @@ typedef struct s_info
 	int		b_max;
 	int		b_min;
 }	t_info;
+
+//main.c
+bool	check_sort(t_stack *stack);
 
 //check_argv.c
 void	check_argv(int argc, char **argv);
@@ -68,11 +73,11 @@ void	sort_three_b(t_stack **b, t_info *info);
 void	final_sort(t_stack **a, t_info *info);
 
 //tools.c
+int	count_nbr(char **str);
 long	ft_atol(const char *str);
 char	*ft_strchr(const char *s, int c);
 int		find_max(t_stack *stack);
 int		find_min(t_stack *stack);
-bool	check_sort(t_stack *stack);
 
 //ft_split.c
 char	**ft_split(char const *s, char c);
