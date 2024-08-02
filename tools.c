@@ -12,35 +12,6 @@
 
 #include "push_swap.h"
 
-int	count_nbr(char **str)
-{
-	char	**tmp;
-	int		count;
-	int		i;
-	int		j;
-
-	count = 0;
-	i = 1;
-	while (str[i])
-	{
-		tmp = ft_split(str[i], ' ');
-		if (!tmp || !*tmp)
-		{
-			write(2, "Error\n", 6);
-			exit(EXIT_FAILURE);
-		}
-		j = 0;
-		while (tmp[j])
-		{
-			count++;
-			j++;
-		}
-		free_nstr(tmp);
-		i++;
-	}
-	return (count);
-}
-
 long	ft_atol(const char *str)
 {
 	long	nbr;
@@ -80,6 +51,21 @@ char	*ft_strchr(const char *s, int c)
 	if (s[i] == chr)
 		return ((char *)(s + i));
 	return (NULL);
+}
+
+int	stack_len(t_stack *stack)
+{
+	int	count;
+
+	if (stack == NULL)
+		return (0);
+	count = 0;
+	while (stack)
+	{
+		count++;
+		stack = stack->next;
+	}
+	return (count);
 }
 
 int	find_max(t_stack *stack)

@@ -12,6 +12,35 @@
 
 #include "push_swap.h"
 
+void	check_argv(int argc, char **argv)
+{
+	char	**str;
+	int		i;
+	long	*nbr;
+	int		j;
+
+	nbr = (long *)malloc((count_nbr(argv) + 1) * sizeof(long));
+	if (!nbr)
+	{
+		write(2, "Error\n", 6);
+		exit(EXIT_FAILURE);
+	}
+	i = 1;
+	j = 0;
+	while (i < argc)
+	{
+		str = ft_split(argv[i], ' ');
+		if (!str || !*str)
+			free_error(nbr, str);
+		if (check_elements(str) == 0 || check_order(str) == 0)
+			free_error(nbr, str);
+		check_nbr(nbr, str, &j);
+		free_nstr(str);
+		i++;
+	}
+	free(nbr);
+}
+
 bool	check_sort(t_stack *stack)
 {
 	if (stack == NULL)
@@ -49,7 +78,8 @@ void	push_swap(t_stack **a, t_stack **b, t_info *info)
 			move_nodes(b, a, 'b', 'a');
 		}
 		update_stack(*a, *b, info, 'f');
-		final_sort(a, info);
+		if (!check_sort(*a))
+			final_sort(a, info);
 	}
 }
 

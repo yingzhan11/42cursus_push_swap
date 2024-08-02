@@ -6,25 +6,19 @@
 /*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 14:44:12 by yzhan             #+#    #+#             */
-/*   Updated: 2024/07/31 14:48:12 by yzhan            ###   ########.fr       */
+/*   Updated: 2024/08/02 11:30:27 by yzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	stack_len(t_stack *stack)
+t_stack	*find_last_node(t_stack *stack)
 {
-	int	count;
-
-	if (stack == NULL)
-		return (0);
-	count = 0;
-	while (stack)
-	{
-		count++;
+	if (!stack)
+		return (NULL);
+	while (stack->next != NULL)
 		stack = stack->next;
-	}
-	return (count);
+	return (stack);
 }
 
 void	set_cur_position(t_stack *stack)
@@ -48,13 +42,40 @@ void	set_cur_position(t_stack *stack)
 	}
 }
 
-t_stack	*find_last_node(t_stack *stack)
+t_stack	*find_target_node_in_b(t_stack *src, t_stack *cur, t_info *info)
 {
-	if (!stack)
-		return (NULL);
-	while (stack->next != NULL)
-		stack = stack->next;
-	return (stack);
+	if (src->nbr > info->b_max)
+		while (cur->nbr != info->b_max)
+			cur = cur->next;
+	else if (src->nbr < info->b_min)
+		while (cur->nbr != info->b_min)
+			cur = cur->next;
+	else
+	{
+		while (src->nbr > cur->nbr)
+			cur = cur->next;
+		while (src->nbr < cur->nbr && cur->next && src->nbr < cur->next->nbr)
+			cur = cur->next;
+	}
+	return (cur);
+}
+
+t_stack	*find_target_node_in_a(t_stack *src, t_stack *cur, t_info *info)
+{
+	if (src->nbr > info->a_max)
+		while (cur->nbr != info->a_max)
+			cur = cur->next;
+	else if (src->nbr < info->a_min)
+		while (cur->nbr != info->a_min)
+			cur = cur->next;
+	else
+	{
+		while (src->nbr < cur->nbr)
+			cur = cur->next;
+		while (src->nbr > cur->nbr && cur->next && src->nbr > cur->next->nbr)
+			cur = cur->next;
+	}
+	return (cur);
 }
 
 t_stack	*find_min_steps_node(t_stack *stack)
@@ -69,15 +90,3 @@ t_stack	*find_min_steps_node(t_stack *stack)
 	}
 	return (NULL);
 }
-
-/*void reset_stack(t_stack *b)
-{
-    set_cur_position(b);
-    while (b)
-    {
-        b->target_p = 0;
-        b->move_steps = 0;
-        b->is_min_steps = false;
-        b = b->next;
-    }
-}*/

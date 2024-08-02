@@ -21,24 +21,11 @@ static void	find_target_in_b(t_stack *a, t_stack *b, t_info *info)
 		cur = b;
 		while (cur)
 		{
+			cur = find_target_node_in_b(a, cur, info);
 			if (a->nbr > info->b_max)
-			{
-				while (cur->nbr != info->b_max)
-					cur = cur->next;
 				a->target_p = cur->cur_p;
-			}
-			else if (a->nbr < info->b_min)
-			{
-				while (cur->nbr != info->b_min)
-					cur = cur->next;
-				a->target_p = cur->cur_p + 1;
-			}
 			else
 			{
-				while (a->nbr > cur->nbr)
-					cur = cur->next;
-				while (a->nbr < cur->nbr && cur->next && a->nbr < cur->next->nbr)
-					cur = cur->next;
 				if (!cur->next)
 					a->target_p = 0;
 				else
@@ -62,24 +49,11 @@ static void	find_target_in_a(t_stack *b, t_stack *a, t_info *info)
 		cur = a;
 		while (cur)
 		{
-			if (b->nbr > info->a_max)
-			{
-				while (cur->nbr != info->a_max)
-					cur = cur->next;
-				b->target_p = cur->cur_p + 1;
-			}
-			else if (b->nbr < info->a_min)
-			{
-				while (cur->nbr != info->a_min)
-					cur = cur->next;
+			cur = find_target_node_in_a(b, cur, info);
+			if (b->nbr < info->a_min)
 				b->target_p = cur->cur_p;
-			}
 			else
 			{
-				while (b->nbr < cur->nbr)
-					cur = cur->next;
-				while (b->nbr > cur->nbr && cur->next && b->nbr > cur->next->nbr)
-					cur = cur->next;
 				if (!cur->next)
 					b->target_p = 0;
 				else

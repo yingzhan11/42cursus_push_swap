@@ -6,7 +6,7 @@
 /*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:12:04 by yzhan             #+#    #+#             */
-/*   Updated: 2024/07/31 15:19:41 by yzhan            ###   ########.fr       */
+/*   Updated: 2024/08/02 11:29:28 by yzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ typedef struct s_info
 	int		b_min;
 }	t_info;
 
-//main.c
-bool	check_sort(t_stack *stack);
-
 //check_argv.c
-void	check_argv(int argc, char **argv);
+int		count_nbr(char **str);
+int		check_elements(char **str);
+int		check_order(char **str);
+void	check_nbr(long *nbr, char **str, int *j);
 
 //stack_init.c
 void	stack_init(t_stack **a, int argc, char **argv);
@@ -62,9 +62,10 @@ void	update_stack(t_stack *a, t_stack *b, t_info *info, char src_name);
 void	move_nodes(t_stack **src, t_stack **dst, char src_name, char dst_name);
 
 //stack_tools.c
-int		stack_len(t_stack *stack);
-void	set_cur_position(t_stack *stack);
 t_stack	*find_last_node(t_stack *stack);
+void	set_cur_position(t_stack *stack);
+t_stack	*find_target_node_in_b(t_stack *src, t_stack *cur, t_info *info);
+t_stack	*find_target_node_in_a(t_stack *src, t_stack *cur, t_info *info);
 t_stack	*find_min_steps_node(t_stack *stack);
 
 //small_sort.c
@@ -73,7 +74,7 @@ void	sort_three_b(t_stack **b, t_info *info);
 void	final_sort(t_stack **a, t_info *info);
 
 //tools.c
-int	count_nbr(char **str);
+int		stack_len(t_stack *stack);
 long	ft_atol(const char *str);
 char	*ft_strchr(const char *s, int c);
 int		find_max(t_stack *stack);
