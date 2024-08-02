@@ -6,7 +6,7 @@
 /*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:12:04 by yzhan             #+#    #+#             */
-/*   Updated: 2024/08/02 11:29:28 by yzhan            ###   ########.fr       */
+/*   Updated: 2024/08/02 12:54:33 by yzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_stack
 typedef struct s_info
 {
 	int		total_n;
+	int		max;
+	int		min;
 	int		a_n;
 	int		a_max;
 	int		a_min;
@@ -44,6 +46,9 @@ typedef struct s_info
 	int		b_max;
 	int		b_min;
 }	t_info;
+
+//main.c
+bool	check_sort(t_stack *stack);
 
 //check_argv.c
 int		count_nbr(char **str);
@@ -53,7 +58,7 @@ void	check_nbr(long *nbr, char **str, int *j);
 
 //stack_init.c
 void	stack_init(t_stack **a, int argc, char **argv);
-void	init_node(t_stack *a);
+void	init_node(t_stack *a, t_info *info);
 
 //stack_update.c
 void	update_stack(t_stack *a, t_stack *b, t_info *info, char src_name);
@@ -70,6 +75,7 @@ t_stack	*find_min_steps_node(t_stack *stack);
 
 //small_sort.c
 void	sort_three_a(t_stack **a, t_info *info);
+void	small_sort(t_stack **a, t_info *info);
 void	sort_three_b(t_stack **b, t_info *info);
 void	final_sort(t_stack **a, t_info *info);
 

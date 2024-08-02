@@ -56,20 +56,21 @@ bool	check_sort(t_stack *stack)
 
 void	push_swap(t_stack **a, t_stack **b, t_info *info)
 {
-	if (info->total_n == 0 || info->total_n == 1)
-		return ;
-	else if (info->total_n <= 2)
-		sa(a);
-	else if (info->total_n == 3)
-		sort_three_a(a, info);
+	if (info->total_n <= 3)
+		small_sort(a, info);
 	else
 	{
 		info->a_n = info->total_n;
 		while (info->a_n > 3)
 		{
 			update_stack(*a, *b, info, 'a');
-			move_nodes(a, b, 'a', 'b');
-			info->a_n--;
+			if ((*a)->nbr == info->max || (*a)->nbr == info->min)
+				ra(a);
+			else
+			{
+				move_nodes(a, b, 'a', 'b');
+				info->a_n--;
+			}
 		}
 		sort_three_a(a, info);
 		while (*b)
@@ -78,8 +79,7 @@ void	push_swap(t_stack **a, t_stack **b, t_info *info)
 			move_nodes(b, a, 'b', 'a');
 		}
 		update_stack(*a, *b, info, 'f');
-		if (!check_sort(*a))
-			final_sort(a, info);
+		final_sort(a, info);
 	}
 }
 
@@ -95,7 +95,7 @@ int	main(int argc, char **argv)
 	a = NULL;
 	b = NULL;
 	stack_init(&a, argc, argv);
-	init_node(a);
+	init_node(a, &info);
 	info.total_n = stack_len(a);
 	if (!check_sort(a))
 		push_swap(&a, &b, &info);

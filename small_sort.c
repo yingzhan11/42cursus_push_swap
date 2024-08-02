@@ -23,6 +23,16 @@ void	sort_three_a(t_stack **a, t_info *info)
 		sa(a);
 }
 
+void	small_sort(t_stack **a, t_info *info)
+{
+	if (info->total_n == 0 || info->total_n == 1)
+		return ;
+	else if (info->total_n <= 2)
+		sa(a);
+	else if (info->total_n == 3)
+		sort_three_a(a, info);
+}
+
 void	sort_three_b(t_stack **b, t_info *info)
 {
 	info->b_min = find_min(*b);
@@ -40,14 +50,14 @@ void	final_sort(t_stack **a, t_info *info)
 	t_stack	*min_node;
 	int		len_a;
 
+	if (check_sort(*a))
+		return ;
 	min_node = *a;
 	while (min_node->nbr > info->a_min)
 		min_node = min_node->next;
 	min_p = min_node->cur_p;
 	len_a = stack_len(*a);
-	if (min_p == 0)
-		return ;
-	else if (min_p <= (len_a / 2))
+	if (min_p <= (len_a / 2))
 	{
 		while (min_p-- > 0)
 			ra(a);

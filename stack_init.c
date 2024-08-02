@@ -66,7 +66,7 @@ void	stack_init(t_stack **a, int argc, char **argv)
 	}
 }
 
-void	init_node(t_stack *a)
+void	init_node(t_stack *a, t_info *info)
 {
 	t_stack	*cur;
 
@@ -80,4 +80,7 @@ void	init_node(t_stack *a)
 		cur->is_min_steps = false;
 		cur = cur->next;
 	}
+	info->total_n = stack_len(a);
+	info->max = find_max(a);
+	info->min = find_min(a);
 }
