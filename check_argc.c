@@ -27,6 +27,7 @@ int	count_nbr(char **str)
 		if (!tmp || !*tmp)
 		{
 			write(2, "Error\n", 6);
+			free_nstr(tmp);
 			exit(EXIT_FAILURE);
 		}
 		j = 0;

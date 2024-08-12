@@ -48,18 +48,18 @@ void	stack_init(t_stack **a, int argc, char **argv)
 	while (i < argc)
 	{
 		str = ft_split(argv[i], ' ');
-		if (!str)
+		if (!str || !*str)
 		{
 			free_stack(a);
+			free_nstr(str);
 			write(2, "Error\n", 6);
 			exit(EXIT_FAILURE);
 		}
-		j = 0;
-		while (str[j])
+		j = -1;
+		while (str[++j])
 		{
 			nbr = ft_atol(str[j]);
 			add_node(a, (int)nbr);
-			j++;
 		}
 		free_nstr(str);
 		i++;
