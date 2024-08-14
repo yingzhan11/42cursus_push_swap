@@ -6,7 +6,7 @@
 /*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:17 by yzhan             #+#    #+#             */
-/*   Updated: 2024/08/02 11:28:19 by yzhan            ###   ########.fr       */
+/*   Updated: 2024/08/14 10:02:02 by yzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ int	count_nbr(char **str)
 			free_nstr(tmp);
 			exit(EXIT_FAILURE);
 		}
-		j = 0;
-		while (tmp[j])
-		{
+		j = -1;
+		while (tmp[++j])
 			count++;
-			j++;
-		}
 		free_nstr(tmp);
 		i++;
 	}
@@ -50,13 +47,13 @@ int	check_elements(char **str)
 	int	signs;
 
 	i = -1;
-	has_nbr = 0;
-	signs = 0;
 	while (str[++i])
 	{
 		j = 0;
 		while (str[i][j])
 		{
+			has_nbr = 0;
+			signs = 0;
 			if (!ft_strchr(ELEMENTS, str[i][j]))
 				return (0);
 			if (ft_strchr(NUMBERS, str[i][j]))

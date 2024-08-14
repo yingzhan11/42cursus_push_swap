@@ -20,7 +20,7 @@
 
 # define NUMBERS "0123456789"
 # define ELEMENTS "+-0123456789"
-# define SIGNS "+-"
+# define SIGNS "+-"	
 
 typedef struct s_stack
 {
