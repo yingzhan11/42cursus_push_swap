@@ -1,4 +1,3 @@
-already upload
-TODO eval
+TODO malloc fail need to free in addnode func
 
 
