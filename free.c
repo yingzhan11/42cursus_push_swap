@@ -52,3 +52,11 @@ void	free_stack(t_stack **stack)
 	}
 	*stack = NULL;
 }
+
+void stack_error(t_stack **stack, char **str)
+{
+	free_stack(stack);
+	free_nstr(str);
+	write(2, "Error\n", 6);
+	exit(EXIT_FAILURE);
+}
