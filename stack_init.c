@@ -12,16 +12,16 @@
 
 #include "push_swap.h"
 
-static void	add_node(t_stack **stack, int nbr)
+static int	add_node(t_stack **stack, int nbr)
 {
 	t_stack	*node;
 	t_stack	*last;
 
 	if (stack == NULL)
-		return ;
+		return (-1);
 	node = malloc(sizeof(t_stack));
 	if (node == NULL)
-		return ;
+		return (-1);
 	node->next = NULL;
 	node->nbr = nbr;
 	if (*stack == NULL)
@@ -35,6 +35,7 @@ static void	add_node(t_stack **stack, int nbr)
 		last->next = node;
 		node->prev = last;
 	}
+	return (0);
 }
 
 void	stack_init(t_stack **a, int argc, char **argv)
@@ -49,17 +50,13 @@ void	stack_init(t_stack **a, int argc, char **argv)
 	{
 		str = ft_split(argv[i], ' ');
 		if (!str || !*str)
-		{
-			free_stack(a);
-			free_nstr(str);
-			write(2, "Error\n", 6);
-			exit(EXIT_FAILURE);
-		}
+			stack_error(a, str);
 		j = -1;
 		while (str[++j])
 		{
 			nbr = ft_atol(str[j]);
-			add_node(a, (int)nbr);
+			if (add_node(a, (int)nbr) == -1)
+				stack_error(a, str);
 		}
 		free_nstr(str);
 		i++;

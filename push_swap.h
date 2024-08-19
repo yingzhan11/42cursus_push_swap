@@ -93,6 +93,7 @@ char	**ft_split(char const *s, char c);
 void	free_nstr(char **str);
 void	free_error(long *nbr, char **str);
 void	free_stack(t_stack **stack);
+void stack_error(t_stack **stack, char **str);
 
 //op_push.c
 void	pa(t_stack **b, t_stack **a);
