@@ -39,3 +39,5 @@ static int	add_node(t_stack **stack, int nbr)
 	return (0);
 }
 ```
+
+3- A tester for push_swap https://github.com/LeoFu9487/push_swap_tester
